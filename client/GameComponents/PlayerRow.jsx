@@ -73,19 +73,65 @@ class PlayerRow extends React.Component {
         );
     }
 
+    getAgenda() {
+        if(!this.props.agenda || this.props.agenda.code === '') {
+            return <div className='agenda card-pile vertical panel' />;
+        }
+
+        let cards = [];
+        let disablePopup = false;
+        let title;
+        let source = 'agenda';
+
+        // Alliance
+        if(this.props.agenda.code === '06018') {
+            cards = this.props.bannerCards;
+        } else if(this.props.agenda.code === '09045') {
+            let pile = this.props.additionalPiles['conclave'];
+            cards = pile.cards;
+            source = 'conclave';
+            title = 'Conclave';
+            disablePopup = !this.props.isMe;
+        }
+
+        disablePopup = disablePopup || !cards || cards.length === 0;
+
+        return (
+            <CardPile className='agenda'
+                cards={ cards }
+                disablePopup={ disablePopup }
+                onCardClick={ this.props.onCardClick }
+                onDragDrop={ this.props.onDragDrop }
+                onMenuItemClick={ this.props.onMenuItemClick }
+                onMouseOut={ this.props.onMouseOut }
+                onMouseOver={ this.props.onMouseOver }
+                popupLocation={ this.props.isMe ? 'bottom' : 'top' }
+                source={ source }
+                title={ title }
+                topCard={ this.props.agenda } />
+        );
+    }
+
     render() {
         var drawDeckMenu = [
             { text: 'Show', handler: this.onShowDeckClick, showPopup: true },
-            { text: 'Shuffle', handler: this.onShuffleClick}
+            { text: 'Shuffle', handler: this.onShuffleClick }
         ];
 
         var drawDeckPopupMenu = [
-            { text: 'Close', handler: this.onCloseClick},
-            { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick}
+            { text: 'Close', handler: this.onCloseClick },
+            { text: 'Close and Shuffle', handler: this.onCloseAndShuffleClick }
         ];
 
         return (
             <div className='player-home-row'>
+                <div className='deck-info'>
+                    <div className='deck-type'>
+                        <CardPile className='faction' source='faction' cards={ [] } topCard={ this.props.faction }
+                            onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disablePopup />
+                        { this.getAgenda() }
+                    </div>
+                </div>
                 <div className='deck-cards'>
                     <PlayerHand
                         cards={ this.props.hand }
@@ -114,9 +160,12 @@ class PlayerRow extends React.Component {
 PlayerRow.displayName = 'PlayerRow';
 PlayerRow.propTypes = {
     additionalPiles: React.PropTypes.object,
+    agenda: React.PropTypes.object,
+    bannerCards: React.PropTypes.object,
     deadPile: React.PropTypes.array,
     discardPile: React.PropTypes.array,
     drawDeck: React.PropTypes.array,
+    faction: React.PropTypes.object,
     hand: React.PropTypes.array,
     isMe: React.PropTypes.bool,
     numDrawCards: React.PropTypes.number,

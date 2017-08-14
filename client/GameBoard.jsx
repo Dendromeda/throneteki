@@ -271,45 +271,6 @@ export class InnerGameBoard extends React.Component {
         return cardsByLocation;
     }
 
-    getAgenda(player, isMe, popupLocation) {
-        if(!player || !player.agenda || player.agenda.code === '') {
-            return <div className='agenda card-pile vertical panel' />;
-        }
-
-        let cards = [];
-        let disablePopup = false;
-        let title;
-        let source = 'agenda';
-
-        // Alliance
-        if(player.agenda.code === '06018') {
-            cards = player.bannerCards;
-        } else if(player.agenda.code === '09045') {
-            let pile = player.additionalPiles['conclave'];
-            cards = pile.cards;
-            source = 'conclave';
-            title = 'Conclave';
-            disablePopup = !isMe;
-        }
-
-        disablePopup = disablePopup || !cards || cards.length === 0;
-
-        return (
-            <CardPile className='agenda'
-                cards={ cards }
-                disablePopup={ disablePopup }
-                onCardClick={ this.onCardClick }
-                onDragDrop={ this.onDragDrop }
-                onMenuItemClick={ this.onMenuItemClick }
-                onMouseOut={ this.onMouseOut }
-                onMouseOver={ this.onMouseOver }
-                popupLocation={ popupLocation }
-                source={ source }
-                title={ title }
-                topCard={ player.agenda } />
-        );
-    }
-
     getSchemePile(player, isMe) {
         let schemePile = player && player.additionalPiles['scheme plots'];
 
@@ -458,13 +419,7 @@ export class InnerGameBoard extends React.Component {
                     { this.getPlots(thisPlayer, otherPlayer) }
                     <div className='left-side'>
                         <div className='player-info'>
-                            <div className='deck-info'>
-                                <div className='deck-type'>
-                                    <CardPile className='faction' source='faction' cards={ [] } topCard={ otherPlayer ? otherPlayer.faction : undefined } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disablePopup />
-                                    { this.getAgenda(otherPlayer, false, 'bottom') }
-                                </div>
-                                { otherPlayer ? <div className={ 'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div> : '' }
-                            </div>
+                            { otherPlayer ? <div className={ 'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div> : '' }
                         </div>
                         <div className='middle'>
                             <div className='middle-right'>
@@ -491,10 +446,6 @@ export class InnerGameBoard extends React.Component {
                         <div className='player-info our-side'>
                             <div className='deck-info'>
                                 <div className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div>
-                                <div className='deck-type'>
-                                    <CardPile className='faction' source='faction' cards={ [] } topCard={ thisPlayer.faction } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disablePopup onCardClick={ this.onFactionCardClick } />
-                                    { this.getAgenda(thisPlayer, !this.state.spectating, 'top') }
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -502,6 +453,9 @@ export class InnerGameBoard extends React.Component {
                     <div className='center'>
                         <PlayerRow
                             additionalPiles={ otherPlayer ? otherPlayer.additionalPiles : {} }
+                            agenda={ otherPlayer ? otherPlayer.agenda : null }
+                            bannerCards={ otherPlayer ? otherPlayer.bannerCards : {} }
+                            faction={ otherPlayer ? otherPlayer.faction : null }
                             hand={ otherPlayer ? otherPlayer.hand : [] } isMe={ false }
                             numDrawCards={ otherPlayer ? otherPlayer.numDrawCards : 0 }
                             discardPile={ otherPlayer ? otherPlayer.discardPile : [] }
@@ -521,6 +475,9 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <PlayerRow isMe={ !this.state.spectating }
                             additionalPiles={ thisPlayer.additionalPiles }
+                            agenda={ thisPlayer.agenda }
+                            bannerCards={ thisPlayer.bannerCards }
+                            faction={ thisPlayer.faction }
                             hand={ thisPlayer.hand }
                             onCardClick={ this.onCardClick }
                             onMouseOver={ this.onMouseOver }
