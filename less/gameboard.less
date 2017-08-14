@@ -4,14 +4,16 @@
   bottom: 0;
   left: 0;
   right: 0;
-  top: 55px;
+  top: 50px;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
 
 .main-window {
   display: flex;
   flex-direction: row;
+  flex: 1;
 }
 
 .card-pile {
@@ -74,15 +76,16 @@
 }
 
 .player-stats {
-  width: 144px;
+  display: flex;
+  
+  &.panel {
+    margin: 0;
+    border-radius: 0;
+  }
 }
 
 .player-stats b {
-  max-width: calc(~"100% - 40px");
   display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   vertical-align: middle;
 }
 
@@ -157,10 +160,10 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
 
   &.our-side {
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 }
 
@@ -484,4 +487,8 @@ span.down-arrow {
 
 .game-status {
   margin-top: 10px;
+}
+
+.player-avatar {
+  padding-right: 10px;
 }

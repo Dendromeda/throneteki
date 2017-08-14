@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'underscore';
 import $ from 'jquery';
 import { toastr } from 'react-redux-toastr';
+import { bindActionCreators } from 'redux';
 
 import PlayerStats from './GameComponents/PlayerStats.jsx';
 import PlayerRow from './GameComponents/PlayerRow.jsx';
@@ -66,7 +67,7 @@ export class InnerGameBoard extends React.Component {
             return;
         }
 
-        var thisPlayer = props.currentGame.players[props.username];
+        let thisPlayer = props.currentGame.players[props.username];
 
         if(thisPlayer) {
             this.setState({ spectating: false });
@@ -80,7 +81,7 @@ export class InnerGameBoard extends React.Component {
             $('body').removeClass('select-cursor');
         }
 
-        var menuOptions = [
+        let menuOptions = [
             { text: 'Leave Game', onClick: this.onLeaveClick }
         ];
 
@@ -116,7 +117,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onScroll() {
-        var messages = this.refs.messagePanel;
+        let messages = this.refs.messagePanel;
 
         setTimeout(() => {
             if(messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
@@ -140,12 +141,12 @@ export class InnerGameBoard extends React.Component {
             return false;
         }
 
-        var thisPlayer = this.props.currentGame.players[this.props.username];
+        let thisPlayer = this.props.currentGame.players[this.props.username];
         if(!thisPlayer) {
             thisPlayer = _.toArray(this.props.currentGame.players)[0];
         }
 
-        var otherPlayer = _.find(this.props.currentGame.players, player => {
+        let otherPlayer = _.find(this.props.currentGame.players, player => {
             return player.name !== thisPlayer.name;
         });
 
@@ -235,7 +236,7 @@ export class InnerGameBoard extends React.Component {
     }
 
     onCardDragStart(event, card, source) {
-        var dragData = { card: card, source: source };
+        let dragData = { card: card, source: source };
         event.dataTransfer.setData('Text', JSON.stringify(dragData));
     }
 
@@ -244,7 +245,7 @@ export class InnerGameBoard extends React.Component {
             return [];
         }
 
-        var sortedCards = _.sortBy(player.cardsInPlay, card => {
+        let sortedCards = _.sortBy(player.cardsInPlay, card => {
             return card.type;
         });
 
@@ -253,14 +254,14 @@ export class InnerGameBoard extends React.Component {
             sortedCards = sortedCards.reverse();
         }
 
-        var cardsByType = _.groupBy(sortedCards, card => {
+        let cardsByType = _.groupBy(sortedCards, card => {
             return card.type;
         });
 
-        var cardsByLocation = [];
+        let cardsByLocation = [];
 
         _.each(cardsByType, cards => {
-            var cardsInPlay = _.map(cards, card => {
+            let cardsInPlay = _.map(cards, card => {
                 return (<Card key={ card.uuid } source='play area' card={ card } disableMouseOver={ card.facedown && !card.code } onMenuItemClick={ this.onMenuItemClick }
                     onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onClick={ this.onCardClick } onDragDrop={ this.onDragDrop } />);
             });
@@ -335,8 +336,34 @@ export class InnerGameBoard extends React.Component {
         );
     }
 
+    getPlots(thisPlayer, otherPlayer) {
+        return (<div className='plots-pane'>
+            <div className='plot-group'>
+                { this.getSchemePile(otherPlayer, false) }
+                <CardPile className={ otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot' }
+                    title='Plots' source='plot deck' cards={ otherPlayer ? otherPlayer.plotDeck : [] }
+                    topCard={ { facedown: true, kneeled: true } } orientation='horizontal'
+                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disableMouseOver disablePopup
+                    onCardClick={ this.onCardClick } orientation='horizontal' />
+                <CardPile className='plot' title='Used Plots' source='revealed plots' cards={ otherPlayer ? otherPlayer.plotDiscard : [] }
+                    topCard={ otherPlayer ? otherPlayer.activePlot : undefined } orientation='horizontal' onMouseOver={ this.onMouseOver }
+                    onMouseOut={ this.onMouseOut } onCardClick={ this.onCardClick } />
+            </div>
+            <div className='plot-group our-side'>
+                <CardPile className='plot' title='Used Plots' source='revealed plots' cards={ thisPlayer.plotDiscard } topCard={ thisPlayer.activePlot }
+                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } orientation='horizontal' onMenuItemClick={ this.onMenuItemClick }
+                    onCardClick={ this.onCardClick } onDragDrop={ this.onDragDrop } />
+                <CardPile className={ thisPlayer.plotSelected ? 'plot plot-selected' : 'plot' }
+                    title='Plots' source='plot deck' cards={ thisPlayer.plotDeck } topCard={ { facedown: true, kneeled: true } } orientation='horizontal'
+                    onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onCardClick={ this.onCardClick } onDragDrop={ this.onDragDrop }
+                    closeOnClick />
+                { this.getSchemePile(thisPlayer, !this.state.spectating) }
+            </div>
+        </div>);
+    }
+
     onCommand(command, arg, method) {
-        var commandArg = arg;
+        let commandArg = arg;
 
         this.props.sendGameMessage(command, commandArg, method);
     }
@@ -349,12 +376,12 @@ export class InnerGameBoard extends React.Component {
         event.stopPropagation();
         event.preventDefault();
 
-        var card = event.dataTransfer.getData('Text');
+        let card = event.dataTransfer.getData('Text');
         if(!card) {
             return;
         }
 
-        var dragData = tryParseJSON(card);
+        let dragData = tryParseJSON(card);
 
         if(!dragData) {
             return;
@@ -384,7 +411,7 @@ export class InnerGameBoard extends React.Component {
             return <div>Waiting for server...</div>;
         }
 
-        var thisPlayer = this.props.currentGame.players[this.props.username];
+        let thisPlayer = this.props.currentGame.players[this.props.username];
         if(!thisPlayer) {
             thisPlayer = _.toArray(this.props.currentGame.players)[0];
         }
@@ -393,41 +420,44 @@ export class InnerGameBoard extends React.Component {
             return <div>Waiting for game to have players or close...</div>;
         }
 
-        var otherPlayer = _.find(this.props.currentGame.players, player => {
+        let otherPlayer = _.find(this.props.currentGame.players, player => {
             return player.name !== thisPlayer.name;
         });
 
-        var thisPlayerCards = [];
-
-        var index = 0;
-
-        var thisCardsInPlay = this.getCardsInPlay(thisPlayer, true);
+        let thisPlayerCards = [];
+        let index = 0;
+        let thisCardsInPlay = this.getCardsInPlay(thisPlayer, true);
         _.each(thisCardsInPlay, cards => {
             thisPlayerCards.push(<div className='card-row' key={ 'this-loc' + index++ }>{ cards }</div>);
         });
-        var otherPlayerCards = [];
 
+        let otherPlayerCards = [];
         if(otherPlayer) {
             _.each(this.getCardsInPlay(otherPlayer, false), cards => {
                 otherPlayerCards.push(<div className='card-row' key={ 'other-loc' + index++ }>{ cards }</div>);
             });
         }
 
-        for(var i = thisPlayerCards.length; i < 2; i++) {
+        for(let i = thisPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div className='card-row' key={ 'this-empty' + i } />);
         }
 
-        for(i = otherPlayerCards.length; i < 2; i++) {
+        for(let i = otherPlayerCards.length; i < 2; i++) {
             thisPlayerCards.push(<div className='card-row' key={ 'other-empty' + i } />);
         }
 
+        let boundActionCreators = bindActionCreators(actions, this.props.dispatch);
+
         return (
             <div className='game-board'>
+                <div className='player-stats-row'>
+                    <PlayerStats { ...boundActionCreators } gold={ otherPlayer ? otherPlayer.gold : 0 } claim={ otherPlayer ? otherPlayer.claim : 0 }
+                        reserve={ otherPlayer ? otherPlayer.reserve : 0 } power={ otherPlayer ? otherPlayer.totalPower : 0 } user={ otherPlayer ? otherPlayer.user : null } />
+                </div>
                 <div className='main-window'>
+                    { this.getPlots(thisPlayer, otherPlayer) }
                     <div className='left-side'>
                         <div className='player-info'>
-                            <PlayerStats gold={ otherPlayer ? otherPlayer.gold : 0 } claim={ otherPlayer ? otherPlayer.claim : 0 }
-                                reserve={ otherPlayer ? otherPlayer.reserve : 0 } power={ otherPlayer ? otherPlayer.totalPower : 0 } user={ otherPlayer ? otherPlayer.user : null } />
                             <div className='deck-info'>
                                 <div className='deck-type'>
                                     <CardPile className='faction' source='faction' cards={ [] } topCard={ otherPlayer ? otherPlayer.faction : undefined } onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disablePopup />
@@ -437,29 +467,6 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='middle'>
-                            <div className='plots-pane'>
-                                <div className='plot-group'>
-                                    { this.getSchemePile(otherPlayer, false) }
-                                    <CardPile className={ otherPlayer && otherPlayer.plotSelected ? 'plot plot-selected' : 'plot' }
-                                        title='Plots' source='plot deck' cards={ otherPlayer ? otherPlayer.plotDeck : [] }
-                                        topCard={ { facedown: true, kneeled: true } } orientation='horizontal'
-                                        onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } disableMouseOver disablePopup
-                                        onCardClick={ this.onCardClick } orientation='horizontal' />
-                                    <CardPile className='plot' title='Used Plots' source='revealed plots' cards={ otherPlayer ? otherPlayer.plotDiscard : [] }
-                                        topCard={ otherPlayer ? otherPlayer.activePlot : undefined } orientation='horizontal' onMouseOver={ this.onMouseOver }
-                                        onMouseOut={ this.onMouseOut } onCardClick={ this.onCardClick } />
-                                </div>
-                                <div className='plot-group our-side'>
-                                    <CardPile className='plot' title='Used Plots' source='revealed plots' cards={ thisPlayer.plotDiscard } topCard={ thisPlayer.activePlot }
-                                        onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } orientation='horizontal' onMenuItemClick={ this.onMenuItemClick }
-                                        onCardClick={ this.onCardClick } onDragDrop={ this.onDragDrop } />
-                                    <CardPile className={ thisPlayer.plotSelected ? 'plot plot-selected' : 'plot' }
-                                        title='Plots' source='plot deck' cards={ thisPlayer.plotDeck } topCard={ { facedown: true, kneeled: true } } orientation='horizontal'
-                                        onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } onCardClick={ this.onCardClick } onDragDrop={ this.onDragDrop }
-                                        closeOnClick />
-                                    { this.getSchemePile(thisPlayer, !this.state.spectating) }
-                                </div>
-                            </div>
                             <div className='middle-right'>
                                 <div className='inset-pane'>
                                     { !this.state.spectating && this.state.showActionWindowsMenu ?
@@ -482,8 +489,6 @@ export class InnerGameBoard extends React.Component {
                             </div>
                         </div>
                         <div className='player-info our-side'>
-                            <PlayerStats gold={ thisPlayer.gold || 0 } claim={ thisPlayer.claim || 0 } reserve={ thisPlayer.reserve || 0 }
-                                power={ thisPlayer.totalPower } isMe={ !this.state.spectating } user={ thisPlayer.user } />
                             <div className='deck-info'>
                                 <div className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div>
                                 <div className='deck-type'>
@@ -531,20 +536,24 @@ export class InnerGameBoard extends React.Component {
                             spectating={ this.state.spectating }
                             onMenuItemClick={ this.onMenuItemClick } />
                     </div>
-                </div>
-                <div className='right-side'>
-                    <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.code + '.png' : '' }
-                        orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
-                        show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
-                    <div className='chat'>
-                        <div className='messages panel' ref='messagePanel' onScroll={ this.onScroll }>
-                            <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
+                    <div className='right-side'>
+                        <CardZoom imageUrl={ this.props.cardToZoom ? '/img/cards/' + this.props.cardToZoom.code + '.png' : '' }
+                            orientation={ this.props.cardToZoom ? this.props.cardToZoom.type === 'plot' ? 'horizontal' : 'vertical' : 'vertical' }
+                            show={ !!this.props.cardToZoom } cardName={ this.props.cardToZoom ? this.props.cardToZoom.name : null } />
+                        <div className='chat'>
+                            <div className='messages panel' ref='messagePanel' onScroll={ this.onScroll }>
+                                <Messages messages={ this.props.currentGame.messages } onCardMouseOver={ this.onMouseOver } onCardMouseOut={ this.onMouseOut } />
+                            </div>
+                            <form>
+                                <input className='form-control' placeholder='Chat...' onKeyPress={ this.onKeyPress } onChange={ this.onChange }
+                                    value={ this.state.message } />
+                            </form>
                         </div>
-                        <form>
-                            <input className='form-control' placeholder='Chat...' onKeyPress={ this.onKeyPress } onChange={ this.onChange }
-                                value={ this.state.message } />
-                        </form>
                     </div>
+                </div>
+                <div className='player-stats-row'>
+                    <PlayerStats gold={ thisPlayer.gold || 0 } claim={ thisPlayer.claim || 0 } reserve={ thisPlayer.reserve || 0 }
+                        power={ thisPlayer.totalPower } isMe={ !this.state.spectating } user={ thisPlayer.user } />
                 </div>
             </div>);
     }
@@ -556,6 +565,7 @@ InnerGameBoard.propTypes = {
     clearZoom: React.PropTypes.func,
     closeGameSocket: React.PropTypes.func,
     currentGame: React.PropTypes.object,
+    dispatch: React.PropTypes.func,
     sendGameMessage: React.PropTypes.func,
     setContextMenu: React.PropTypes.func,
     socket: React.PropTypes.object,
