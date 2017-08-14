@@ -451,8 +451,8 @@ export class InnerGameBoard extends React.Component {
         return (
             <div className='game-board'>
                 <div className='player-stats-row'>
-                    <PlayerStats { ...boundActionCreators } gold={ otherPlayer ? otherPlayer.gold : 0 } claim={ otherPlayer ? otherPlayer.claim : 0 }
-                        reserve={ otherPlayer ? otherPlayer.reserve : 0 } power={ otherPlayer ? otherPlayer.totalPower : 0 } user={ otherPlayer ? otherPlayer.user : null } />
+                    <PlayerStats { ...boundActionCreators } stats={ otherPlayer ? otherPlayer.stats : null }
+                        user={ otherPlayer ? otherPlayer.user : null } />
                 </div>
                 <div className='main-window'>
                     { this.getPlots(thisPlayer, otherPlayer) }
@@ -552,8 +552,7 @@ export class InnerGameBoard extends React.Component {
                     </div>
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats gold={ thisPlayer.gold || 0 } claim={ thisPlayer.claim || 0 } reserve={ thisPlayer.reserve || 0 }
-                        power={ thisPlayer.totalPower } isMe={ !this.state.spectating } user={ thisPlayer.user } />
+                    <PlayerStats stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user } />
                 </div>
             </div>);
     }

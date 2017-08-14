@@ -13,8 +13,16 @@ export class PlayerStats extends React.Component {
         this.props.sendGameMessage('changeStat', type, direction === 'up' ? 1 : -1);
     }
 
+    getStatValueOrDefault(stat) {
+        if(!this.props.stats) {
+            return 0;
+        }
+
+        return this.props.stats[stat] || 0;
+    }
+
     getControlButtons(type) {
-        if(!this.props.isMe) {
+        if(!this.props.showControls) {
             return null;
         }
 
@@ -43,19 +51,19 @@ export class PlayerStats extends React.Component {
             <div className='panel player-stats'>
                 { playerAvatar }
                 <div className='state'>
-                    <span><img src='/img/Gold.png' title='Gold' alt='Gold' /> { this.props.gold }</span>
+                    <span><img src='/img/Gold.png' title='Gold' alt='Gold' /> { this.getStatValueOrDefault('gold') }</span>
                     { this.getControlButtons('gold') }
                 </div>
                 <div className='state'>
-                    <span><img src='/img/Power.png' title='Power' alt='Power' /> { this.props.power }</span>
+                    <span><img src='/img/Power.png' title='Power' alt='Power' /> { this.getStatValueOrDefault('totalPower') }</span>
                     { this.getControlButtons('power') }
                 </div>
                 <div className='state'>
-                    <span><img src='/img/Reserve.png' title='Reserve' alt='Reserve' /> { this.props.reserve }</span>
+                    <span><img src='/img/Reserve.png' title='Reserve' alt='Reserve' /> { this.getStatValueOrDefault('reserve') }</span>
                     { this.getControlButtons('reserve') }
                 </div>
                 <div className='state'>
-                    <span><img src='/img/Claim.png' title='Claim' alt='Claim' /> { this.props.claim }</span>
+                    <span><img src='/img/Claim.png' title='Claim' alt='Claim' /> { this.getStatValueOrDefault('claim') }</span>
                     { this.getControlButtons('claim') }
                 </div>
             </div>
@@ -65,13 +73,10 @@ export class PlayerStats extends React.Component {
 
 PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
-    claim: React.PropTypes.number,
-    gold: React.PropTypes.number,
-    isMe: React.PropTypes.bool,
     playerName: React.PropTypes.string,
-    power: React.PropTypes.number,
-    reserve: React.PropTypes.number,
     sendGameMessage: React.PropTypes.func,
+    showControls: React.PropTypes.bool,
+    stats: React.PropTypes.object,
     user: React.PropTypes.object
 };
 
