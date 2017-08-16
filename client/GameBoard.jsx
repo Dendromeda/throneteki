@@ -413,7 +413,7 @@ export class InnerGameBoard extends React.Component {
             <div className='game-board'>
                 <div className='player-stats-row'>
                     <PlayerStats { ...boundActionCreators } stats={ otherPlayer ? otherPlayer.stats : null }
-                        user={ otherPlayer ? otherPlayer.user : null } />
+                        user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } />
                 </div>
                 <div className='main-window'>
                     { this.getPlots(thisPlayer, otherPlayer) }
@@ -434,9 +434,6 @@ export class InnerGameBoard extends React.Component {
                         </div>
                         <div className='board-inner'>
                             <div className='left-side'>
-                                <div className='player-info'>
-                                    { otherPlayer ? <div className={ 'first-player-indicator ' + (!thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div> : '' }
-                                </div>
                                 <div className='middle'>
                                     <div className='middle-right'>
                                         <div className='inset-pane'>
@@ -456,11 +453,6 @@ export class InnerGameBoard extends React.Component {
                                                 onTimerExpired={ this.onTimerExpired.bind(this) }
                                                 phase={ thisPlayer.phase } />
                                         </div>
-                                    </div>
-                                </div>
-                                <div className='player-info our-side'>
-                                    <div className='deck-info'>
-                                        <div className={ 'first-player-indicator ' + (thisPlayer.firstPlayer ? '' : 'hidden') }>First player</div>
                                     </div>
                                 </div>
                             </div>
@@ -514,7 +506,8 @@ export class InnerGameBoard extends React.Component {
                     </div>
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user } />
+                    <PlayerStats stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
+                        firstPlayer={ thisPlayer.firstPlayer } />
                 </div>
             </div>);
     }

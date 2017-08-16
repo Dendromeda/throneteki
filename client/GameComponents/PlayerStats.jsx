@@ -66,6 +66,7 @@ export class PlayerStats extends React.Component {
                     <span><img src='/img/Claim.png' title='Claim' alt='Claim' /> { this.getStatValueOrDefault('claim') }</span>
                     { this.getControlButtons('claim') }
                 </div>
+                { this.props.firstPlayer ? <div className=''>First player</div> : null }
             </div>
         );
     }
@@ -73,6 +74,7 @@ export class PlayerStats extends React.Component {
 
 PlayerStats.displayName = 'PlayerStats';
 PlayerStats.propTypes = {
+    firstPlayer: React.PropTypes.bool,
     playerName: React.PropTypes.string,
     sendGameMessage: React.PropTypes.func,
     showControls: React.PropTypes.bool,
