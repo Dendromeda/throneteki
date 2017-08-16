@@ -122,6 +122,10 @@ class CardPile extends React.Component {
                 orientation={ this.props.orientation } />);
         });
 
+        if(this.props.disablePopup || !this.state.showPopup) {
+            return null;
+        }
+
         let popupClass = 'popup panel';
 
         if(this.props.popupLocation === 'top') {
