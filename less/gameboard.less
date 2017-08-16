@@ -19,7 +19,7 @@
 .card-pile {
   padding: 0px;
   position: relative;
-  margin: 5px 7px;
+  margin: 0px 5px;
 
   &.vertical {
     height: @card-height;
@@ -61,12 +61,10 @@
   cursor: url(/img/crosshairs.cur), default;
 }
 
-// LEFT SIDE
-.left-side {
-  width: 310px;
+.prompt-area {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .player-info {
@@ -310,18 +308,27 @@ span.down-arrow {
 
 .player-home-row {
   display: flex;
-  height: 100px;
+  margin-top: 5px;
+
+  &.our-side {
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+}
+
+.player-home-row-container {
+  display: flex;
 }
 
 .deck-cards {
   display: flex;
-  height: 100px;
 }
 
 .hand {
   height: @card-height;
   width: 342px;
   padding: 0px;
+  margin: 0px 5px;
 }
 
 .hand.squish .card-wrapper {

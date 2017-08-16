@@ -220,7 +220,9 @@ CardPile.propTypes = {
     orientation: React.PropTypes.string,
     popupLocation: React.PropTypes.string,
     popupMenu: React.PropTypes.array,
-    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck', 'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction', 'additional']).isRequired,
+    source: React.PropTypes.oneOf(['hand', 'discard pile', 'play area', 'dead pile', 'draw deck', 'plot deck',
+        'revealed plots', 'selected plot', 'attachment', 'agenda', 'faction', 'additional',
+        'scheme plots']).isRequired,
     title: React.PropTypes.string,
     topCard: React.PropTypes.object
 };

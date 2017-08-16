@@ -418,11 +418,11 @@ export class InnerGameBoard extends React.Component {
                 <div className='main-window'>
                     { this.getPlots(thisPlayer, otherPlayer) }
                     <div className='board-middle'>
-                        <div className='player-row'>
+                        <div className='player-home-row'>
                             <PlayerRow
                                 additionalPiles={ otherPlayer ? otherPlayer.additionalPiles : {} }
                                 agenda={ otherPlayer ? otherPlayer.agenda : null }
-                                bannerCards={ otherPlayer ? otherPlayer.bannerCards : {} }
+                                bannerCards={ otherPlayer ? otherPlayer.bannerCards : [] }
                                 faction={ otherPlayer ? otherPlayer.faction : null }
                                 hand={ otherPlayer ? otherPlayer.hand : [] } isMe={ false }
                                 numDrawCards={ otherPlayer ? otherPlayer.numDrawCards : 0 }
@@ -433,42 +433,36 @@ export class InnerGameBoard extends React.Component {
                                 onMouseOut={ this.onMouseOut } />
                         </div>
                         <div className='board-inner'>
-                            <div className='left-side'>
-                                <div className='middle'>
-                                    <div className='middle-right'>
-                                        <div className='inset-pane'>
-                                            { !this.state.spectating && this.state.showActionWindowsMenu ?
-                                                <ActionWindowsMenu options={ thisPlayer.promptedActionWindows }
-                                                    onToggle={ this.onPromptedActionWindowToggle.bind(this) } />
-                                                : null }
-                                            <ActivePlayerPrompt title={ thisPlayer.menuTitle }
-                                                arrowDirection={ this.state.spectating ? 'none' : this.state.showActionWindowsMenu ? 'down' : 'up' }
-                                                buttons={ thisPlayer.buttons }
-                                                promptTitle={ thisPlayer.promptTitle }
-                                                onButtonClick={ this.onCommand }
-                                                onMouseOver={ this.onMouseOver }
-                                                onMouseOut={ this.onMouseOut }
-                                                onTitleClick={ this.onMenuTitleClick.bind(this) }
-                                                user={ this.props.user }
-                                                onTimerExpired={ this.onTimerExpired.bind(this) }
-                                                phase={ thisPlayer.phase } />
-                                        </div>
-                                    </div>
+                            <div className='prompt-area'>
+                                <div className='inset-pane'>
+                                    { !this.state.spectating && this.state.showActionWindowsMenu ?
+                                        <ActionWindowsMenu options={ thisPlayer.promptedActionWindows }
+                                            onToggle={ this.onPromptedActionWindowToggle.bind(this) } />
+                                        : null }
+                                    <ActivePlayerPrompt title={ thisPlayer.menuTitle }
+                                        arrowDirection={ this.state.spectating ? 'none' : this.state.showActionWindowsMenu ? 'down' : 'up' }
+                                        buttons={ thisPlayer.buttons }
+                                        promptTitle={ thisPlayer.promptTitle }
+                                        onButtonClick={ this.onCommand }
+                                        onMouseOver={ this.onMouseOver }
+                                        onMouseOut={ this.onMouseOut }
+                                        onTitleClick={ this.onMenuTitleClick.bind(this) }
+                                        user={ this.props.user }
+                                        onTimerExpired={ this.onTimerExpired.bind(this) }
+                                        phase={ thisPlayer.phase } />
                                 </div>
                             </div>
-                            <div className='center'>
-                                <div className='play-area'>
-                                    <div className='player-board'>
-                                        { otherPlayerCards }
-                                    </div>
-                                    <div className='player-board our-side' onDragOver={ this.onDragOver }
-                                        onDrop={ event => this.onDragDropEvent(event, 'play area') } >
-                                        { thisPlayerCards }
-                                    </div>
+                            <div className='play-area'>
+                                <div className='player-board'>
+                                    { otherPlayerCards }
+                                </div>
+                                <div className='player-board our-side' onDragOver={ this.onDragOver }
+                                    onDrop={ event => this.onDragDropEvent(event, 'play area') } >
+                                    { thisPlayerCards }
                                 </div>
                             </div>
                         </div>
-                        <div className='player-row'>
+                        <div className='player-home-row our-side'>
                             <PlayerRow isMe={ !this.state.spectating }
                                 additionalPiles={ thisPlayer.additionalPiles }
                                 agenda={ thisPlayer.agenda }
