@@ -39,11 +39,7 @@
 
 .popup {
   z-index: @layer-card-menu;
-
-  .inner {
-    display: flex;
-    flex-wrap: wrap;
-  }
+  background-color: rgba(0, 0, 0, 0.85);
 
   a {
     display: inline-block;
@@ -165,35 +161,60 @@
   }
 }
 
+.our-side {
+  .plot {
+    .popup {
+      transform: translateY(-80%);
+      
+      .arrow-indicator {
+        top: calc(~'100% - 40px');
+      }
+    }
+  }
+}
+
 .plot {
   margin: 5px;
  
-  .popup.panel {
+  .popup {
     position: absolute;
-    width: 200px;
     min-height: 92px;
-    left: 75px;
+    min-width: 168px;
+    left: 90px;
     top: 0;
-    transform: translateY(-50%);
-    background-color: black;
-    &.hidden {
-      display: none;
+    transform: translateY(-40%);
+
+    
+    .inner {
+      columns: 2;
+      min-height: 128px;
+
+      .card-wrapper {
+        margin: 5px 0 0 0;
+      }
+    }
+  
+    .arrow-indicator {
+      left: -20px;
+      top: calc(~'65% - 40px');
+
+      border-right: 12px solid @brand-tertiary;
+      border-bottom: 12px solid transparent;      
+      border-top: 12px solid transparent;            
     }
   }
 }
 
 .arrow-indicator {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
   position: absolute;
-  left: -10px;
-  top: calc(~"50% + 10px");
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  background-color: black;
-  transform: rotate(45deg);
-  border: 1px solid rgba(71, 58, 56, 0.95);
-  border-top: none;
-  border-right: none;
+
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-bottom: 8px solid @brand-tertiary;
 }
 
 .middle-right {

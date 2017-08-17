@@ -126,7 +126,7 @@ class CardPile extends React.Component {
             return null;
         }
 
-        let popupClass = 'popup panel';
+        let popupClass = 'panel';
 
         if(this.props.popupLocation === 'top') {
             popupClass += ' our-side';
@@ -136,18 +136,23 @@ class CardPile extends React.Component {
 
         var popupMenu = this.props.popupMenu ? (<div>{ _.map(this.props.popupMenu, menuItem => {
             return <a key={ linkIndex++ } onClick={ () => this.onPopupMenuItemClick(menuItem) }>{ menuItem.text }</a>;
-        }) }</div>) : (
-            <div>
-                <a onClick={ this.onCollectionClick }>Close</a>
-            </div>);
+        }) }</div>) : null;
 
         popup = (
-            <div className={ popupClass + (this.state.showPopup ? '' : ' hidden') } onClick={ event => event.stopPropagation() }>
-                { popupMenu }
-                <div className='inner'>
-                    { cardList }
+            <div className='popup'>
+                <div className='panel-title'>
+                    { this.props.title }
+                    <span className='pull-right'>
+                        <a className='glyphicon glyphicon-remove' onClick={ this.onCollectionClick } />
+                    </span>
                 </div>
-                <div className='arrow-indicator' />
+                <div className={ popupClass } onClick={ event => event.stopPropagation() }>
+                    { popupMenu }
+                    <div className='inner'>
+                        { cardList }
+                    </div>
+                    <div className='arrow-indicator' />
+                </div>
             </div>);
 
         return popup;
