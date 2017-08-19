@@ -75,7 +75,7 @@
 
 .player-stats {
   display: flex;
-  
+
   &.panel {
     margin: 0;
     border-radius: 0;
@@ -168,8 +168,9 @@
 .our-side {
   .plot {
     .popup {
-      transform: translateY(-80%);
-      
+      bottom: -2px;
+      top: initial;
+
       .arrow-indicator {
         top: calc(~'100% - 40px');
       }
@@ -186,14 +187,14 @@
 
 .plot {
   margin: 5px;
- 
+
   .popup {
     position: absolute;
     min-height: 92px;
     min-width: 168px;
     left: 90px;
-    transform: translateY(-40%);
-    
+    top: -75px;
+
     .inner {
       columns: 2;
       min-height: 128px;
@@ -202,21 +203,21 @@
         margin: 5px 0 0 0;
       }
     }
-  
+
     .arrow-indicator {
       left: -20px;
       top: calc(~'65% - 40px');
 
       border-right: 12px solid @brand-tertiary;
-      border-bottom: 12px solid transparent;      
-      border-top: 12px solid transparent;            
+      border-bottom: 12px solid transparent;
+      border-top: 12px solid transparent;
     }
   }
 }
 
 .discard {
   .popup {
-    position: absolute;    
+    position: absolute;
     min-height: 146px;
     bottom: initial;
     top: 95px;
@@ -226,11 +227,11 @@
       width: @card-width * 5 + (5 * 5px);
       max-height: @card-height * 4 + (4 * 5px);
       overflow-y: auto;
-      
+
       .card-wrapper {
         margin: 5px 5px 0 0;
       }
-    } 
+    }
 
     .arrow-indicator {
       content: '';
@@ -240,10 +241,10 @@
       position: absolute;
       bottom: -30px;
       left: 10px;
-    
+
       border-right: 12px solid transparent;
       border-left: 12px solid transparent;
-      border-bottom: 12px solid transparent;      
+      border-bottom: 12px solid transparent;
       border-top: 12px solid @brand-tertiary;
     }
   }
@@ -318,7 +319,7 @@
   text-align: center;
   text-transform: uppercase;
   width: 200px !important;
-  position: relative; 
+  position: relative;
 }
 
 span.up-arrow {
@@ -333,7 +334,7 @@ span.up-arrow {
   border-bottom: 8px solid @brand-primary;
   left: 90px;
 
-  top: -9px;    
+  top: -9px;
 }
 
 span.down-arrow {
@@ -348,7 +349,7 @@ span.down-arrow {
   border-top: 8px solid @brand-primary;
   left: 90px;
 
-  top: -9px;    
+  top: -9px;
 }
 
 // CENTER
@@ -472,7 +473,7 @@ span.down-arrow {
   bottom: initial;
   width: 465px;
   min-height: 92px;
-  
+
   .arrow-indicator {
     transform: rotate(135deg);
     top: -11px;
