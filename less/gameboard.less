@@ -30,6 +30,10 @@
     height: @card-width;
     width: @card-height;
   }
+
+  .card-placeholder {
+    height: @card-height;
+  }
 }
 
 .player-home-row .card-pile.horizontal {
@@ -171,6 +175,13 @@
       }
     }
   }
+
+  .discard {
+    .popup {
+      bottom: 95px;
+      top: initial;
+    }
+  }
 }
 
 .plot {
@@ -181,9 +192,7 @@
     min-height: 92px;
     min-width: 168px;
     left: 90px;
-    top: 0;
     transform: translateY(-40%);
-
     
     .inner {
       columns: 2;
@@ -201,6 +210,41 @@
       border-right: 12px solid @brand-tertiary;
       border-bottom: 12px solid transparent;      
       border-top: 12px solid transparent;            
+    }
+  }
+}
+
+.discard {
+  .popup {
+    position: absolute;    
+    min-height: 146px;
+    bottom: initial;
+    top: 95px;
+
+    .inner {
+      min-height: @card-height;
+      width: @card-width * 5 + (5 * 5px);
+      max-height: @card-height * 4 + (4 * 5px);
+      overflow-y: auto;
+      
+      .card-wrapper {
+        margin: 5px 5px 0 0;
+      }
+    } 
+
+    .arrow-indicator {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      position: absolute;
+      bottom: -30px;
+      left: 10px;
+    
+      border-right: 12px solid transparent;
+      border-left: 12px solid transparent;
+      border-bottom: 12px solid transparent;      
+      border-top: 12px solid @brand-tertiary;
     }
   }
 }
@@ -383,19 +427,6 @@ span.down-arrow {
 }
 
 .discard .popup {
-  position: absolute;
-  left: -100px;
-  top: 85px;
-  bottom: initial;
-  width: 500px;
-  min-height: 92px;
-  
-  .arrow-indicator {
-    transform: rotate(135deg);
-    top: -11px;
-    left: 110px;
-  }
-
   &.our-side {
     top: initial;
     bottom: 85px;

@@ -203,7 +203,7 @@ class CardPile extends React.Component {
                     onClick={ this.onTopCardClick }
                     onMenuItemClick={ this.props.onMenuItemClick }
                     onDragDrop={ this.props.onDragDrop }
-                    orientation={ cardOrientation } /> : null }
+                    orientation={ cardOrientation } /> : <div className='card-placeholder' /> }
                 { this.state.showMenu ? this.getMenu() : null }
                 { this.getPopup() }
             </div>);
