@@ -412,7 +412,7 @@ export class InnerGameBoard extends React.Component {
         return (
             <div className='game-board'>
                 <div className='player-stats-row'>
-                    <PlayerStats { ...boundActionCreators } stats={ otherPlayer ? otherPlayer.stats : null }
+                    <PlayerStats stats={ otherPlayer ? otherPlayer.stats : null }
                         user={ otherPlayer ? otherPlayer.user : null } firstPlayer={ otherPlayer && otherPlayer.firstPlayer } />
                 </div>
                 <div className='main-window'>
@@ -500,7 +500,7 @@ export class InnerGameBoard extends React.Component {
                     </div>
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
+                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
                         firstPlayer={ thisPlayer.firstPlayer } />
                 </div>
             </div>);
@@ -532,6 +532,13 @@ function mapStateToProps(state) {
     };
 }
 
-const GameBoard = connect(mapStateToProps, actions, null, { withRef: true })(InnerGameBoard);
+function mapDispatchToProps(dispatch) {
+    let boundActions = bindActionCreators(actions, dispatch);
+    boundActions.dispatch = dispatch;
+
+    return boundActions;
+}
+
+const GameBoard = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(InnerGameBoard);
 
 export default GameBoard;

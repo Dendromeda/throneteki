@@ -21,21 +21,18 @@ export class PlayerStats extends React.Component {
         return this.props.stats[stat] || 0;
     }
 
-    getControlButtons(type) {
-        if(!this.props.showControls) {
-            return null;
-        }
-
-        return null;
-
+    getButton(stat, name, statToSet = stat) {
         return (
-            <div className='pull-right'>
-                <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, type, 'down') }>
+            <div className='state'>
+                <span><img src={ '/img/' + name + '.png' } title={ name } alt={ name } /></span>
+                { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'down') }>
                     <img src='/img/Minus.png' title='-' alt='-' />
-                </button>
-                <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, type, 'up') }>
+                </button> : null }
+
+                <span>{ this.getStatValueOrDefault(stat) }</span>
+                { this.props.showControls ? <button className='btn btn-stat' onClick={ this.sendUpdate.bind(this, statToSet, 'up') }>
                     <img src='/img/Plus.png' title='+' alt='+' />
-                </button>
+                </button> : null }
             </div>
         );
     }
@@ -50,22 +47,12 @@ export class PlayerStats extends React.Component {
         return (
             <div className='panel player-stats'>
                 { playerAvatar }
-                <div className='state'>
-                    <span><img src='/img/Gold.png' title='Gold' alt='Gold' /> { this.getStatValueOrDefault('gold') }</span>
-                    { this.getControlButtons('gold') }
-                </div>
-                <div className='state'>
-                    <span><img src='/img/Power.png' title='Power' alt='Power' /> { this.getStatValueOrDefault('totalPower') }</span>
-                    { this.getControlButtons('power') }
-                </div>
-                <div className='state'>
-                    <span><img src='/img/Reserve.png' title='Reserve' alt='Reserve' /> { this.getStatValueOrDefault('reserve') }</span>
-                    { this.getControlButtons('reserve') }
-                </div>
-                <div className='state'>
-                    <span><img src='/img/Claim.png' title='Claim' alt='Claim' /> { this.getStatValueOrDefault('claim') }</span>
-                    { this.getControlButtons('claim') }
-                </div>
+
+                { this.getButton('gold', 'Gold') }
+                { this.getButton('totalPower', 'Power', 'power') }
+                { this.getButton('reserve', 'Reserve') }
+                { this.getButton('claim', 'Claim') }
+
                 { this.props.firstPlayer ? <div className=''>First player</div> : null }
             </div>
         );
