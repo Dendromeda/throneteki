@@ -119,7 +119,7 @@ class CardPile extends React.Component {
                 onTouchMove={ this.props.onTouchMove }
                 onClick={ this.onCardClick.bind(this, card) }
                 onDragDrop={ this.props.onDragDrop }
-                orientation={ this.props.orientation } />);
+                orientation={ this.props.orientation === 'kneeled' ? 'vertical' : this.props.orientation } />);
         });
 
         if(this.props.disablePopup || !this.state.showPopup) {
