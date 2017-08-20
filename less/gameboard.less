@@ -166,13 +166,42 @@
   }
 }
 
+.arrow {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  border: 8px solid transparent;
+
+  &.left {
+    border-right-color: @brand-tertiary;
+  }
+
+  &.right {
+    border-left-color: @brand-tertiary;
+  }
+
+  &.up {
+    border-bottom-color: @brand-tertiary;
+  }
+
+  &.down {
+    border-top-color: @brand-tertiary;
+  }
+
+  &.lg {
+    border-width: 12px;
+  }
+}
+
 .our-side {
   .plot {
     .popup {
       bottom: -2px;
       top: initial;
 
-      .arrow-indicator {
+      .arrow {
         top: calc(~'100% - 40px');
       }
     }
@@ -182,6 +211,11 @@
     .popup {
       bottom: 95px;
       top: initial;
+
+      .arrow {
+        bottom: -30px;
+        top: initial;
+      }
     }
   }
 
@@ -217,13 +251,9 @@
       }
     }
 
-    .arrow-indicator {
-      left: -20px;
+    .arrow {
+      left: -25px;
       top: calc(~'65% - 40px');
-
-      border-right: 12px solid @brand-tertiary;
-      border-bottom: 12px solid transparent;
-      border-top: 12px solid transparent;
     }
   }
 }
@@ -237,36 +267,7 @@
 
     .inner {
       min-height: @card-height;
-      width: @card-width * 5 + (5 * 5px);
-      max-height: @card-height * 4 + (4 * 5px);
-      overflow-y: auto;
-
-      .card-wrapper {
-        margin: 5px 5px 0 0;
-      }
-    }
-
-    .arrow-indicator {
-      content: '';
-      display: block;
-      width: 0;
-      height: 0;
-      position: absolute;
-      bottom: -30px;
-      left: 10px;
-    }
-  }
-}
-
-.dead {
-  .popup {
-    position: absolute;
-    top: 75px;
-    left: 0;
-
-    .inner {
-      min-height: @card-height;
-      width: @card-width * 5 + (5 * 5px);
+      width: @card-width * 5 + (5 * 5px) + @scrollbar-width;
       max-height: @card-height * 4 + (4 * 5px);
       overflow-y: auto;
 
@@ -280,6 +281,47 @@
       top: -60px;
       left: 10px;
     }
+  }
+}
+
+.dead {
+  .popup {
+    position: absolute;
+    top: 75px;
+    left: 0;
+
+    .inner {
+      min-height: @card-height;
+      width: @card-width * 5 + (5 * 5px) + @scrollbar-width;
+      max-height: @card-height * 4 + (4 * 5px);
+      overflow-y: auto;
+
+      .card-wrapper {
+        margin: 5px 5px 0 0;
+      }
+    }
+
+    .arrow {
+      bottom: initial;
+      top: -60px;
+      left: 10px;
+    }
+  }
+}
+
+.draw {
+  .popup {
+    position: absolute;
+    left: 0;
+    bottom: 95px;
+  }
+
+  .inner {
+    width: @card-width * 7 + (7 * 5px) + @scrollbar-width;
+    min-height: @card-height;
+    max-height: @card-height * 5 + (5 * 5px);
+
+    overflow-y: auto;
   }
 }
 
@@ -430,21 +472,9 @@ span.down-arrow {
   width: 500px;
   min-height: 92px;
 
-  .arrow-indicator {
-    transform: rotate(135deg);
-    top: -11px;
-    left: 110px;
-  }
-
   &.our-side {
     top: initial;
     bottom: 85px;
-
-    .arrow-indicator {
-      transform: rotate(-45deg);
-      top: inherit;
-      bottom: -11px;
-    }
   }
 }
 
@@ -452,12 +482,6 @@ span.down-arrow {
   &.our-side {
     top: initial;
     bottom: 85px;
-
-    .arrow-indicator {
-      transform: rotate(-45deg);
-      top: inherit;
-      bottom: -11px;
-    }
   }
 }
 
@@ -469,40 +493,9 @@ span.down-arrow {
   width: 465px;
   min-height: 92px;
 
-  .arrow-indicator {
-    transform: rotate(135deg);
-    top: -11px;
-    left: 400px;
-  }
-
   &.our-side {
     top: initial;
     bottom: 70px;
-
-    .arrow-indicator {
-      transform: rotate(-45deg);
-      top: inherit;
-      bottom: -11px;
-    }
-  }
-}
-
-.draw {
-  .popup {
-    left: -271px;
-    position: absolute;
-    bottom: 85px;
-    width: 590px;
-    min-height: 92px;
-
-    .card {
-      margin: 2px;
-    }
-  }
-
-  .inner {
-    height: 450px;
-    overflow-y: scroll;
   }
 }
 

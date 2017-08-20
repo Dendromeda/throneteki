@@ -127,9 +127,17 @@ class CardPile extends React.Component {
         }
 
         let popupClass = 'panel';
+        let arrowClass = 'arrow lg';
 
         if(this.props.popupLocation === 'top') {
             popupClass += ' our-side';
+            arrowClass += ' down';
+        } else {
+            arrowClass += ' up';
+        }
+
+        if(this.props.orientation === 'horizontal') {
+            arrowClass = 'arrow lg left';
         }
 
         let linkIndex = 0;
@@ -151,7 +159,7 @@ class CardPile extends React.Component {
                     <div className='inner'>
                         { cardList }
                     </div>
-                    <div className='arrow-indicator' />
+                    <div className={ arrowClass }/>
                 </div>
             </div>);
 
