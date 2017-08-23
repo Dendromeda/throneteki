@@ -235,6 +235,11 @@
     .popup {
       bottom: 95px;
       top: initial;
+      
+      .arrow {
+        bottom: -30px;
+        top: initial;
+      }
     }
   }
 }
@@ -340,9 +345,19 @@
 .agenda {
   .popup {
     position: absolute;
+    top: 95px;
+    left: 0;
 
     .inner {
       min-width: @card-width * 2 + (2 * 5px);
+      max-height: @card-height + 10px;
+      display: flex;
+    }
+    
+    .arrow {
+      bottom: initial;
+      top: -60px;
+      left: 10px;
     }
   }
 }

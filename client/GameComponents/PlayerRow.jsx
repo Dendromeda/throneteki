@@ -106,7 +106,7 @@ class PlayerRow extends React.Component {
                 onMenuItemClick={ this.props.onMenuItemClick }
                 onMouseOut={ this.props.onMouseOut }
                 onMouseOver={ this.props.onMouseOver }
-                popupLocation={ this.props.isMe ? 'bottom' : 'top' }
+                popupLocation={ this.props.isMe ? 'top' : 'bottom' }
                 source={ source }
                 title={ title }
                 topCard={ this.props.agenda } />
