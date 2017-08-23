@@ -230,6 +230,13 @@
       }
     }
   }
+
+  .agenda {
+    .popup {
+      bottom: 95px;
+      top: initial;
+    }
+  }
 }
 
 .plot {
@@ -314,19 +321,29 @@
     position: absolute;
     left: 0;
     bottom: 95px;
-  }
 
-  .inner {
-    width: @card-width * 7 + (7 * 5px) + @scrollbar-width;
-    min-height: @card-height;
-    max-height: @card-height * 5 + (5 * 5px);
+    .inner {
+      width: @card-width * 7 + (7 * 5px) + @scrollbar-width;
+      min-height: @card-height;
+      max-height: @card-height * 5 + (5 * 5px);
 
-    overflow-y: auto;
+      overflow-y: auto;
+    }
   }
 
   .arrow {
     bottom: -30px;
     left: 10px;
+  }
+}
+
+.agenda {
+  .popup {
+    position: absolute;
+
+    .inner {
+      min-width: @card-width * 2 + (2 * 5px);
+    }
   }
 }
 
@@ -467,27 +484,6 @@ span.down-arrow {
 
 .hand.squish .card-wrapper {
   position: absolute;
-}
-
-.agenda .popup {
-  position: absolute;
-  left: -100px;
-  top: 85px;
-  bottom: initial;
-  width: 500px;
-  min-height: 92px;
-
-  &.our-side {
-    top: initial;
-    bottom: 85px;
-  }
-}
-
-.discard .popup {
-  &.our-side {
-    top: initial;
-    bottom: 85px;
-  }
 }
 
 .player-home-row .additional-cards .popup {

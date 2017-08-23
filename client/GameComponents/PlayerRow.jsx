@@ -86,6 +86,7 @@ class PlayerRow extends React.Component {
         // Alliance
         if(this.props.agenda.code === '06018') {
             cards = this.props.bannerCards;
+            title = 'Banners';
         } else if(this.props.agenda.code === '09045') {
             let pile = this.props.additionalPiles['conclave'];
             cards = pile.cards;
