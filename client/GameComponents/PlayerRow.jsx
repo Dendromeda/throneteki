@@ -114,10 +114,10 @@ class PlayerRow extends React.Component {
     }
 
     render() {
-        var drawDeckMenu = [
+        var drawDeckMenu = this.props.isMe && !this.props.spectating ? [
             { text: 'Show', handler: this.onShowDeckClick, showPopup: true },
             { text: 'Shuffle', handler: this.onShuffleClick }
-        ];
+        ] : null;
 
         var drawDeckPopupMenu = [
             { text: 'Close', handler: this.onCloseClick },
@@ -138,7 +138,7 @@ class PlayerRow extends React.Component {
                     onMouseOver={ this.props.onMouseOver } />
                 <CardPile className='draw' title='Draw' source='draw deck' cards={ this.props.drawDeck }
                     onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick }
-                    popupLocation={ this.props.isMe || this.props.spectating ? 'top' : 'bottom' } onDragDrop={ this.props.onDragDrop }
+                    popupLocation='top' onDragDrop={ this.props.onDragDrop } disablePopup={ this.props.spectating || !this.props.isMe }
                     menu={ drawDeckMenu } hiddenTopCard cardCount={ this.props.numDrawCards } popupMenu={ drawDeckPopupMenu } />
                 <CardPile className='discard' title='Discard' source='discard pile' cards={ this.props.discardPile }
                     onMouseOver={ this.props.onMouseOver } onMouseOut={ this.props.onMouseOut } onCardClick={ this.props.onCardClick }
