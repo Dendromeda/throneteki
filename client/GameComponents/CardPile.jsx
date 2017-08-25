@@ -149,9 +149,9 @@ class CardPile extends React.Component {
         popup = (
             <div className='popup'>
                 <div className='panel-title'>
-                    { this.props.title }
+                    <span className='text-center'>{ this.props.title }</span>
                     <span className='pull-right'>
-                        <a className='glyphicon glyphicon-remove' onClick={ this.onCollectionClick } />
+                        <a className='close-button glyphicon glyphicon-remove' onClick={ this.onCollectionClick } />
                     </span>
                 </div>
                 <div className={ popupClass } onClick={ event => event.stopPropagation() }>
